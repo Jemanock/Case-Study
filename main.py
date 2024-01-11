@@ -1,44 +1,70 @@
 import streamlit as st
 
-col1, col2 = st.columns(2)
-with col1:
-    st.header("A cat")
-    st.image("https://static.streamlit.io/examples/cat.jpg")
-with col2:
-    st.header("A dog")
-    st.image("https://static.streamlit.io/examples/dog.jpg")
-
-tab1, tab2, tab3 = st.tabs(["Cat"
-,
-"Dog"
-,
-"Owl"])
-with tab1:
-    st.header("A cat")
-    st.image("https://static.streamlit.io/examples/cat.jpg", width=200)
-with tab2:
-    st.header("A dog")
-    st.image("https://static.streamlit.io/examples/dog.jpg", width=200)
-with tab3:
-    st.header("An owl")
-    st.image("https://static.streamlit.io/examples/owl.jpg", width=200)
-
 # Eine Überschrift der ersten Ebene
-st.write("# Gerätemanagement")
+st.write("# Management System")
 # Eine Überschrift der zweiten Ebene
-st.write("## Geräteauswahl")
+
+
+
+tab1, tab2, tab3, tab4 = st.tabs(["Devices","Reservations","Maintenance","User"])
+with tab1:
+    st.header("Devices")
 # Eine Auswahlbox mit hard-gecoded Optionen, das Ergebnis
 # wird in current_device_example gespeichert
-current_device_example = st.selectbox(
-'Gerät auswählen'
-,
-options = ["Gerät_A"
-,
-"Gerät_B"], key=
-"sbDevice_example")
-st.write(F"Das ausgewählte Gerät ist {current_device_example}")
+    current_device_example = st.selectbox(
+    'Select Device',options = ["Dev1","Dev2","Dev3"], key="Devices")
+    st.write(F"Selected Device: {current_device_example}")
 
-if current_device_example == "Gerät_A":
-    st.write("Test")
+    devname = st.text_input("New Device Name", key="New Device Name")
+    if st.button("Add new Device",key="Add new Device"):
+        st.write(F"Device {devname} added")
+    if st.button("Delete selected Device",key="Delete selected Device"):
+        st.write(F"Device {current_device_example} deleted")
+
+    
+with tab2:
+    st.header("Reservations")
+
+    with st.expander("Add new Reservation"):
+        start,end = st.columns(2)
+        start_res = start.selectbox("Device",options = ["Dev1","Dev2","Dev3"], key="Start Device")
+        end_name = end.text_input("Name", key="E_Name")
+        start_date = start.date_input("Start Date", key="Start Date")
+        start_time = start.time_input("Start Time", key="Start Time")
+        end_date = end.date_input("End Date", key="End Date")
+        end_time = end.time_input("End Time", key="End Time")
+        if st.button("Add Reservation",key="Add_Reservation"):
+            st.success(F"Reservation {end_name} added")
+    current_reservation_example = st.selectbox("Select Reservation",options = ["Res1","Res2","Res3"], key="Reservations")
+    if st.button("Delete selected Reservation",key="Delete Reservation"):
+       st.write("Reservation deleted")
+    
+with tab3:
+    st.header("Maintenace")
+
+    with st.expander("Add new Maintenance"):
+        start,end = st.columns(2)
+        start_mtn = start.selectbox("Device",options = ["Dev1","Dev2","Dev3"], key="Start_mtn")
+        end_name_mtn = end.text_input("Name", key="E_mtn_Name")
+        start_mtn_date = start.date_input("Maintenance Date", key="Mtn_Date")
+        if st.button("Add Maintenance",key="Add_Maintenance"):
+            st.success(F"Maintenence {end_name_mtn} added")
+    current_mtn_example = st.selectbox("Select Maintenance",options = ["Mtn1","Mtn2","Mtn3"], key="Maintenances")
+    if st.button("Delete selected Maintenance",key="Delete Maintenance"):
+       st.write("Maintenance deleted")
+
+with tab4: 
+    st.header("User")
+
+    current_user_example = st.selectbox(
+    'Select User',options = ["USR1","USR2","USR3"], key="Users")
+    st.write(F"Selected Device: {current_user_example}")
+
+    usrname = st.text_input("New Username", key="New User Name")
+    if st.button("Add new User",key="Add new User"):
+        st.write(F"User {usrname} added")
+    if st.button("Delete selected User",key="Delete selected User"):
+        st.write(F"User {current_user_example} deleted")
+    
 
     
