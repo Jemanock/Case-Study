@@ -1,4 +1,5 @@
 import streamlit as st
+import queries
 
 # Eine Überschrift der ersten Ebene
 st.write("# Management System")
@@ -67,4 +68,3 @@ with tab4:
         st.write(F"User {current_user_example} deleted")
     
 
-    
