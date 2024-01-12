@@ -39,7 +39,7 @@ class Device():
             # If the device doesn't exist, insert a new record
             self.db_connector.insert(self.__dict__)
             print("Data inserted.")
-            
+                        
     # Class method that can be called without an instance of the class to construct an instance of the class
     @classmethod
     def load_data_by_device_name(cls, device_name):

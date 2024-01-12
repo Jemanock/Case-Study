@@ -1,5 +1,7 @@
 import streamlit as st
 import queries
+import devices
+
 
 # Eine Überschrift der ersten Ebene
 st.write("# Management System")
@@ -13,12 +15,16 @@ with tab1:
 # Eine Auswahlbox mit hard-gecoded Optionen, das Ergebnis
 # wird in current_device_example gespeichert
     current_device_example = st.selectbox(
-    'Select Device',options = ["Dev1","Dev2","Dev3"], key="Devices")
+    'Select Device',options = queries.find_devices(), key="Devices")
     st.write(F"Selected Device: {current_device_example}")
 
     devname = st.text_input("New Device Name", key="New Device Name")
     if st.button("Add new Device",key="Add new Device"):
         st.write(F"Device {devname} added")
+        added_diviece = devices.Device(devname, '0')
+        added_diviece.store_data()
+        st.rerun()
+
     if st.button("Delete selected Device",key="Delete selected Device"):
         st.write(F"Device {current_device_example} deleted")
 
@@ -58,7 +64,7 @@ with tab4:
     st.header("User")
 
     current_user_example = st.selectbox(
-    'Select User',options = ["USR1","USR2","USR3"], key="Users")
+    'Select User',options = queries.find_devices(), key="Users") # devices werden ausgegeben und nicht 
     st.write(F"Selected Device: {current_user_example}")
 
     usrname = st.text_input("New Username", key="New User Name")
