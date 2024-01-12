@@ -1,1 +1,5 @@
 .venv/
+__pycache__/devices.cpython-312.pyc
+__pycache__/queries.cpython-312.pyc
+__pycache__/serializer.cpython-312.pyc
+__pycache__/users.cpython-312.pyc
