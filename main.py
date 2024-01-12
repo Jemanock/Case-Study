@@ -14,9 +14,9 @@ with tab1:
     st.header("Devices")
 # Eine Auswahlbox mit hard-gecoded Optionen, das Ergebnis
 # wird in current_device_example gespeichert
-    current_device_example = st.selectbox(
+    current_device = st.selectbox(
     'Select Device',options = queries.find_devices(), key="Devices")
-    st.write(F"Selected Device: {current_device_example}")
+    st.write(F"Selected Device: {current_device}")
 
     devname = st.text_input("New Device Name", key="New Device Name")
     if st.button("Add new Device",key="Add new Device"):
@@ -26,7 +26,14 @@ with tab1:
         st.rerun()
 
     if st.button("Delete selected Device",key="Delete selected Device"):
-        st.write(F"Device {current_device_example} deleted")
+        st.write(F"Device {current_device} deleted")
+
+        device_manager = devices.Device.load_data_by_device_name(current_device)
+        # Der Gerätenamen, den Sie löschen möchten
+        #device_name_to_delete = current_device
+        # Aufruf der delete_data-Methode
+        device_manager.delete_data()
+        st.rerun()
 
     
 with tab2:
