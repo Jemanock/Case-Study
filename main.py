@@ -29,9 +29,6 @@ with tab1:
         st.write(F"Device {current_device} deleted")
 
         device_manager = devices.Device.load_data_by_device_name(current_device)
-        # Der Gerätenamen, den Sie löschen möchten
-        #device_name_to_delete = current_device
-        # Aufruf der delete_data-Methode
         device_manager.delete_data()
         st.rerun()
 
@@ -71,7 +68,7 @@ with tab4:
     st.header("User")
 
     current_user_example = st.selectbox(
-    'Select User',options = queries.find_devices(), key="Users") # devices werden ausgegeben und nicht 
+    'Select User',options = queries.find_users(), key="Users") # devices werden ausgegeben und nicht 
     st.write(F"Selected Device: {current_user_example}")
 
     usrname = st.text_input("New Username", key="New User Name")
