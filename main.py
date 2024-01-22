@@ -1,6 +1,7 @@
 import streamlit as st
 import queries
 import devices
+import users
 
 
 # Eine Überschrift der ersten Ebene
@@ -77,7 +78,13 @@ with tab4:
     usrname = st.text_input("New Username", key="New User Name")
     if st.button("Add new User",key="Add new User"):
         st.write(F"User {usrname} added")
+        added_user = users.User(usrname, '0')
+        added_user.store_data()
+        st.rerun
+
     if st.button("Delete selected User",key="Delete selected User"):
         st.write(F"User {current_user_example} deleted")
-    
-
+        user_manager = users.User.load_data_by_user_name(current_user_example)
+        user_manager.delete_data()
+        st.rerun
+        
