@@ -84,5 +84,3 @@ if __name__ == "__main__":
         print(f"Loaded Device: {loaded_device}")
     else:
         print("Device not found.")
-
-    

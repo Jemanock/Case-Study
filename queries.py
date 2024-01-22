@@ -17,5 +17,16 @@ def find_devices() -> list:
     
     return result
 
+def find_users() -> list:
+
+    db_connector = TinyDB(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database.json'), storage=serializer).table('users')
+    UserQuery = Query()
+    result = db_connector.all()
+
+    if result:
+        result = [x["username"] for x in result]
+
+
 if __name__ == "__main__":
     print(find_devices())
+    print(find_users())
