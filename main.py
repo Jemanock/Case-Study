@@ -72,7 +72,7 @@ with tab4:
     st.header("User")
 
     current_user_example = st.selectbox(
-    'Select User',options = queries.find_devices(), key="Users") # devices werden ausgegeben und nicht 
+    'Select User',options = queries.find_users(), key="Users") # devices werden ausgegeben und nicht 
     st.write(F"Selected Device: {current_user_example}")
 
     usrname = st.text_input("New Username", key="New User Name")
@@ -87,4 +87,3 @@ with tab4:
         user_manager = users.User.load_data_by_user_name(current_user_example)
         user_manager.delete_data()
         st.rerun
-        

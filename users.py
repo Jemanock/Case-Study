@@ -68,7 +68,7 @@ class User():
 
 if __name__ == "__main__":
     # Create a device
-    user1 = User("User1", "one@mci.edu")
+    user1 = User("User1", "one")
     user2 = User("User2", "two@mci.edu") 
     user3 = User("User3", "two@mci.edu") 
     user1.store_data()
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     user4 = User("User3", "four@mci.edu") 
     user4.store_data()
 
-    loaded_user = User.load_data_by_device_name('User2')
+    loaded_user = User.load_data_by_user_name('User2')
     if loaded_user:
         print(f"Loaded User: {loaded_user}")
     else:
