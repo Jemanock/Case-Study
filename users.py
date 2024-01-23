@@ -4,6 +4,7 @@ from serializer import serializer
 
 class User:
     db_connector = TinyDB(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database.json'), storage=serializer).table('users')
+
     def __init__(self, id, name) -> None:
         self.name = name
         self.id = id
@@ -22,6 +23,30 @@ class User:
             self.db_connector.insert(self.__dict__)
             print("Data inserted.")
 
+    def delete_data(self):
+        print("Deleting data...")
+        # Check if the device already exists in the database
+        DeviceQuery = Query()
+        result = self.db_connector.search(DeviceQuery.name == self.name)
+        if result:
+            # Delete the existing record
+            self.db_connector.remove(doc_ids=[result[0].doc_id])
+            print("Data deleted.")
+        else:
+            print("Data not found for deletion.")
+
+    @classmethod
+    def load_data_by_user_name(cls, name):
+            # Load data from the database and create an instance of the Device class
+            DeviceQuery = Query()
+            result = cls.db_connector.search(DeviceQuery.name == name)
+
+            if result:
+                data = result[0]
+                return cls(data['id'], data['name'])
+            else:
+                return None
+
 if __name__ == "__main__":
     # Create a device
     user1 = User("User1", "one@mci.edu")
@@ -32,7 +57,7 @@ if __name__ == "__main__":
     user3.store_data()
 
 
-    loaded_users = User.load_data_by_device_name('Device2')
+    loaded_users = User.load_data_by_user_name('User1')
     if loaded_users:
         print(f"Loaded Device: {loaded_users}")
     else:
