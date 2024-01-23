@@ -2,19 +2,15 @@ import os
 
 from tinydb import TinyDB, Query
 from serializer import serializer
-
+#from devices import Device 
 
 class User():
     # Class variable that is shared between all instances of the class
     db_connector = TinyDB(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database.json'), storage=serializer).table('users')
 
-    # Constructor
-    def __init__(self, username : str, email : str):
+    def __init__(self, username: str, email: str):
         self.username = username
-        # The user id of the user that manages the device
-        # We don't store the user object itself, but only the id (as a key)
         self.email = email
-        self.is_active = True
         
     # String representation of the class
     def __str__(self):
@@ -68,7 +64,7 @@ class User():
 
 if __name__ == "__main__":
     # Create a device
-    user1 = User("User1", "one")
+    user1 = User("User1", "one@mci.edu")
     user2 = User("User2", "two@mci.edu") 
     user3 = User("User3", "two@mci.edu") 
     user1.store_data()
