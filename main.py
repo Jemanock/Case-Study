@@ -1,6 +1,7 @@
 import streamlit as st
 import queries
 import devices
+import users
 
 
 # Eine Überschrift der ersten Ebene
@@ -28,8 +29,8 @@ with tab1:
     if st.button("Delete selected Device",key="Delete selected Device"):
         st.write(F"Device {current_device} deleted")
 
-        device_manager = devices.Device.load_data_by_device_name(current_device)
-        device_manager.delete_data()
+        selected_device = devices.Device.load_data_by_device_name(current_device)
+        selected_device.delete_data()
         st.rerun()
 
     
@@ -71,10 +72,18 @@ with tab4:
     'Select User',options = queries.find_users(), key="Users") # devices werden ausgegeben und nicht 
     st.write(F"Selected Device: {current_user_example}")
 
-    usrname = st.text_input("New Username", key="New User Name")
+    username = st.text_input("New Username", key="New User Name")
     if st.button("Add new User",key="Add new User"):
-        st.write(F"User {usrname} added")
+        st.write(F"User {username} added")
+        added_user = users.User(0, username)
+        added_user.store_data()
+        st.rerun()
+
     if st.button("Delete selected User",key="Delete selected User"):
         st.write(F"User {current_user_example} deleted")
+
+        selected_user = users.User.load_data_by_user_name(current_user_example)
+        selected_user.delete_data()
+        st.rerun()
     
 
