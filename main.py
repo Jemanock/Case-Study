@@ -2,6 +2,7 @@ import streamlit as st
 import queries
 import devices
 import users
+import reservations
 
 
 # Eine Überschrift der ersten Ebene
@@ -39,17 +40,37 @@ with tab2:
 
     with st.expander("Add new Reservation"):
         start,end = st.columns(2)
-        start_res = start.selectbox("Device",options = ["Dev1","Dev2","Dev3"], key="Start Device")
-        end_name = end.text_input("Name", key="E_Name")
+        start_dev = start.selectbox("Device",options = queries.find_devices(), key="Select Device")
+        start_name = start.selectbox("User",options = queries.find_users(), key="Select User")
         start_date = start.date_input("Start Date", key="Start Date")
         start_time = start.time_input("Start Time", key="Start Time")
         end_date = end.date_input("End Date", key="End Date")
         end_time = end.time_input("End Time", key="End Time")
+        res_id = f"{start_name}_{start_dev}"
+
         if st.button("Add Reservation",key="Add_Reservation"):
-            st.success(F"Reservation {end_name} added")
-    current_reservation_example = st.selectbox("Select Reservation",options = ["Res1","Res2","Res3"], key="Reservations")
-    if st.button("Delete selected Reservation",key="Delete Reservation"):
-       st.write("Reservation deleted")
+            st.write(F"Reservation {res_id} added")
+            added_reservation = reservations.Reservation(res_id, start_date, start_time, end_date, end_time, start_dev, start_name)
+            added_reservation.store_data()
+            st.rerun()
+    
+    with st.expander("View Reservations"):
+        current_res = st.selectbox(
+        'Select Reservation',options = queries.find_reservations(), key="Reservation")
+        st.write(F"Selected Reservation: {current_res}")
+        selected_res = reservations.Reservation.load_data_by_res_name(current_res)
+        st.write(F"{selected_res.print()}")
+        
+
+        if st.button("Delete selected Reservation",key="Delete selected Reservation"):
+            st.write(F"Reservation {current_res} deleted")
+
+            
+            selected_res.delete_data()
+            st.rerun()
+
+    st.dataframe(reservations.Reservation.load_all())    
+
     
 with tab3:
     st.header("Maintenace")

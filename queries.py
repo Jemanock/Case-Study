@@ -32,6 +32,17 @@ def find_users() -> list:
     
     return result
 
+def find_reservations() -> list:
+    db_connector = TinyDB(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database.json'), storage=serializer).table('reservations')
+
+    result = db_connector.all()
+
+    if result:
+        result = [x["res_id"] for x in result]
+
+    return result
+
 if __name__ == "__main__":
     print(find_devices())
     print(find_devices())
+    print(find_reservations())
