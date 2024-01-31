@@ -59,7 +59,7 @@ with tab2:
         'Select Reservation',options = queries.find_reservations(), key="Reservation")
         st.write(F"Selected Reservation: {current_res}")
         selected_res = reservations.Reservation.load_data_by_res_name(current_res)
-        st.write(F"{selected_res.print()}")
+        #st.write(F"{selected_res.print()}")
         
 
         if st.button("Delete selected Reservation",key="Delete selected Reservation"):
@@ -73,18 +73,40 @@ with tab2:
 
     
 with tab3:
-    st.header("Maintenace")
-
+    st.header("Maintenance")
     with st.expander("Add new Maintenance"):
         start,end = st.columns(2)
-        start_mtn = start.selectbox("Device",options = ["Dev1","Dev2","Dev3"], key="Start_mtn")
-        end_name_mtn = end.text_input("Name", key="E_mtn_Name")
-        start_mtn_date = start.date_input("Maintenance Date", key="Mtn_Date")
+        start_dev = start.selectbox("Device",options = queries.find_devices(), key="Select Device to maintain")
+        start_name = start.selectbox("User",options = queries.find_users(), key="Select Maintenance User")
+        start_date = start.date_input("Start Date", key="Start Date Maintenance")
+        start_time = start.time_input("Start Time", key="Start Time Maintenance")
+        end_date = end.date_input("End Date", key="End Date Maintenance")
+        end_time = end.time_input("End Time", key="End Time Maintenance")
+        res_id = f"Maintenance_{start_dev}"
+
         if st.button("Add Maintenance",key="Add_Maintenance"):
-            st.success(F"Maintenence {end_name_mtn} added")
-    current_mtn_example = st.selectbox("Select Maintenance",options = ["Mtn1","Mtn2","Mtn3"], key="Maintenances")
-    if st.button("Delete selected Maintenance",key="Delete Maintenance"):
-       st.write("Maintenance deleted")
+            st.write(F"Maintenance {res_id} added")
+            added_maintenance = reservations.Reservation(res_id, start_date, start_time, end_date, end_time, start_dev, start_name)
+            added_maintenance.store_data()
+            st.rerun()
+
+    with st.expander("View Reservations and Maintenance"):
+        current_res = st.selectbox(
+        'Select Reservation or Maintenance',options = queries.find_reservations(), key="Reservation or Maintenance")
+        st.write(F"Selected Reservation or Maintenance: {current_res}")
+        selected_res = reservations.Reservation.load_data_by_res_name(current_res)
+        #st.write(F"{selected_res.print()}")
+        
+
+        if st.button("Delete selected Reservation or Maintenance",key="Delete selected Reservation or Maintenance"):
+            st.write(F"Reservation or Maintenance {current_res} deleted")
+
+            
+            selected_res.delete_data()
+            st.rerun()
+
+    st.dataframe(reservations.Reservation.load_all())
+    
 
 with tab4: 
     st.header("User")
